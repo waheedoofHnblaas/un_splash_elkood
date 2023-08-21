@@ -10,10 +10,13 @@ class FavoritePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FavoriteController favoriteController = Get.find();
+
+
+    //==============    Method Widgets   ======================
     gridViewWidget() {
-      return Padding(
+      return favoriteController.imagesList.isNotEmpty? Padding(
         padding: const EdgeInsets.symmetric(horizontal: 2.0),
-        child: GridView.builder(
+        child:  GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             mainAxisExtent: Get.height / 3,
@@ -28,13 +31,16 @@ class FavoritePage extends StatelessWidget {
             );
           },
         ),
-      );
+      ):const Text('No Images');
     }
 
+    //==============    Main Widget   ======================
     return Scaffold(
       appBar: AppBar(title: const Text('Favorite Images')),
-      body: GetBuilder<FavoriteController>(
-        builder: (controller) => gridViewWidget(),
+      body: Center(
+        child: GetBuilder<FavoriteController>(
+          builder: (controller) => gridViewWidget(),
+        ),
       ),
     );
   }

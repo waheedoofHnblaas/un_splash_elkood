@@ -204,18 +204,28 @@ class ImageCard extends StatelessWidget {
       );
     }
 
-    return Container(
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(
-          Radius.circular(12),
+    return InkWell(
+      onTap: () {
+        print(list[index]);
+        homeController.toImageDataPage(list[index]);
+      },
+      child: Container(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(12),
+          ),
         ),
-      ),
-      child: Stack(
-        children: [
-          Container(child: imageWidget()),
-          SizedBox(child: descWidget()),
-          Positioned(bottom: 8, right: 8, child: imagesButtons()),
-        ],
+        child: Stack(
+          children: [
+            Container(child: imageWidget()),
+            SizedBox(child: descWidget()),
+            Positioned(
+              bottom: 8,
+              right: 8,
+              child: imagesButtons(),
+            ),
+          ],
+        ),
       ),
     );
   }

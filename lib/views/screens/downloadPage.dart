@@ -12,6 +12,8 @@ class DownloadPage extends StatelessWidget {
   Widget build(BuildContext context) {
     DownloadController downloadController = Get.find();
 
+    //==============    Method Widgets   ======================
+
     imagesButtons(String imageName) {
       return Row(
         children: [
@@ -64,6 +66,9 @@ class DownloadPage extends StatelessWidget {
       );
     }
 
+
+
+    //==============    Main Widget   ======================
     return Scaffold(
       appBar: AppBar(title: const Text('Downloads Images')),
       body: GetBuilder<DownloadController>(

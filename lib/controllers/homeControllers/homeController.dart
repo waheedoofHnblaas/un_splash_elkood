@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:un_splash/controllers/homeControllers/downloadController.dart';
 import 'package:un_splash/controllers/homeControllers/favoriteController.dart';
+import 'package:un_splash/controllers/homeControllers/imageDataController.dart';
 import 'package:un_splash/core/constant/approutes.dart';
 import 'package:un_splash/core/function/checkinternet.dart';
 import 'package:un_splash/data/datasource/remote/home/home/searshData.dart';
@@ -182,5 +183,11 @@ class HomeController extends GetxController {
     await downloadController.getDownloadedImages();
     await downloadController.info();
     Get.toNamed(AppRoute.download);
+  }
+
+  void toImageDataPage(ImageModel imageModel) {
+    ImageDataController imageDataController = Get.find();
+    imageDataController.setImageModel(imageModel);
+    Get.toNamed(AppRoute.data);
   }
 }

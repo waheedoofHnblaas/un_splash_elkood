@@ -13,7 +13,8 @@ class AppTextField extends StatelessWidget {
     this.auto = true,
     this.lines = 1,
     this.onTap,
-    required this.textFieldController, required this.submit,
+    required this.textFieldController,
+    required this.submit,
   }) : super(key: key);
 
   late String type;
@@ -33,9 +34,11 @@ class AppTextField extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 22, vertical: 2),
       decoration: BoxDecoration(
-        color: context.theme.primaryColor.withOpacity(0.1),
+        color: context.theme.primaryColor.withOpacity(0.06),
+        border: Border.all(
+            color: Get.theme.primaryColor.withOpacity(0.4), width: 0),
         borderRadius: const BorderRadius.all(
-          Radius.circular(18),
+          Radius.circular(12),
         ),
       ),
       child: TextFormField(
@@ -52,8 +55,11 @@ class AppTextField extends StatelessWidget {
         decoration: InputDecoration(
           hintTextDirection: TextDirection.ltr,
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: context.theme.primaryColor),
-            borderRadius: BorderRadius.circular(18),
+            borderSide: BorderSide(
+              color: Get.theme.primaryColor,
+              width: 0.8,
+            ),
+            borderRadius: BorderRadius.circular(12),
           ),
           suffixIcon: IconButton(
             onPressed: onTap,
@@ -73,9 +79,14 @@ class AppTextField extends StatelessWidget {
           hintText: type,
           hintStyle: TextStyle(color: context.theme.primaryColor),
           contentPadding:
-              const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(
+              strokeAlign: 0,
+              color: Colors.transparent,
+              style: BorderStyle.solid,
+            ),
           ),
         ),
         onChanged: onChanged,

@@ -4,11 +4,12 @@ import 'package:get/get.dart';
 import 'package:un_splash/controllers/homeControllers/homeController.dart';
 import 'package:un_splash/core/class/handelingview.dart';
 import 'package:un_splash/core/class/statusrequest.dart';
- import 'package:un_splash/views/widget/apptextfield.dart';
+import 'package:un_splash/views/widget/apptextfield.dart';
 import 'package:un_splash/views/widget/imageCard.dart';
 
 import '../../controllers/homeControllers/downloadController.dart';
 import '../../controllers/homeControllers/favoriteController.dart';
+import '../../controllers/homeControllers/imageDataController.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,30 +19,37 @@ class HomePage extends StatelessWidget {
     HomeController homeController = Get.put(HomeController());
     Get.put(FavoriteController());
     Get.put(DownloadController());
+    Get.put(ImageDataController());
+
+    //==============    Method Widgets    ======================
+
     gridViewWidget() {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 2.0),
-        child: GridView.builder(
-          controller: homeController.scrollController,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisExtent: Get.height / 3,
-            crossAxisSpacing: 3.0, // Spacing between columns
-            mainAxisSpacing: 3.0, // Spacing between rows
-          ),
-          itemCount: homeController.isSearchMode
-              ? homeController.searchedImagesList.length
-              : homeController.imagesList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return ImageCard(
-              index: index,
-              list: homeController.isSearchMode
-                  ? homeController.searchedImagesList
-                  : homeController.imagesList,
+      return homeController.isSearchMode &&
+              homeController.searchedImagesList.isEmpty
+          ? const Center(child: Text('No Images'))
+          : Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2.0),
+              child: GridView.builder(
+                controller: homeController.scrollController,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisExtent: Get.height / 3,
+                  crossAxisSpacing: 3.0, // Spacing between columns
+                  mainAxisSpacing: 3.0, // Spacing between rows
+                ),
+                itemCount: homeController.isSearchMode
+                    ? homeController.searchedImagesList.length
+                    : homeController.imagesList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ImageCard(
+                    index: index,
+                    list: homeController.isSearchMode
+                        ? homeController.searchedImagesList
+                        : homeController.imagesList,
+                  );
+                },
+              ),
             );
-          },
-        ),
-      );
     }
 
     lazyLoadingWidget() {
@@ -122,33 +130,39 @@ class HomePage extends StatelessWidget {
       );
     }
 
+
+    titleWidget(){
+      return Row(
+        children: [
+          IconButton(
+            onPressed: () {
+              homeController.toDownloadPage();
+            },
+            icon: Icon(
+              Icons.download,
+              color: Get.theme.primaryColor,
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              homeController.toFavoritePage();
+            },
+            icon: Icon(
+              Icons.favorite_border,
+              color: Get.theme.primaryColor,
+            ),
+          ),
+          Expanded(child: Container()),
+          const Text('UnSplash'),
+          Expanded(flex: 2, child: Container()),
+        ],
+      );
+    }
+
+    //==============    Main Widget   ======================
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            IconButton(
-              onPressed: () {
-                homeController.toDownloadPage();
-              },
-              icon: Icon(
-                Icons.download,
-                color: Get.theme.primaryColor,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                homeController.toFavoritePage();
-              },
-              icon: Icon(
-                Icons.favorite_border,
-                color: Get.theme.primaryColor,
-              ),
-            ),
-            Expanded(child: Container()),
-            const Text('UnSplash'),
-            Expanded(flex: 2, child: Container()),
-          ],
-        ),
+        title: titleWidget(),
         actions: [searchActions()],
       ),
       body: RefreshIndicator(

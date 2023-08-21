@@ -97,6 +97,7 @@ class HomeController extends GetxController {
     if (page == 0) {
       searchPageIndex = 0;
       searchedImagesList.clear();
+      searchCount = 0;
       statusRequest = StatusRequest.loading;
       update();
     } else {
@@ -181,7 +182,6 @@ class HomeController extends GetxController {
   Future<void> toDownloadPage() async {
     DownloadController downloadController = Get.find();
     await downloadController.getDownloadedImages();
-    await downloadController.info();
     Get.toNamed(AppRoute.download);
   }
 

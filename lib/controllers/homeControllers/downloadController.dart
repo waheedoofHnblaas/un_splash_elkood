@@ -1,12 +1,11 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../core/class/statusrequest.dart';
 import '../../data/model/imageModel.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 
 class DownloadController extends GetxController {
   Map<String, int> downloadingIds = {};
@@ -16,19 +15,6 @@ class DownloadController extends GetxController {
   void onInit() async {
     await getDownloadedImages();
     super.onInit();
-  }
-
-  info() async {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    print('Running on ${androidInfo.model}'); // e.g. "Moto G (4)"
-    print('CPU architecture: ${androidInfo.supportedAbis}');
-
-    // IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-    // print('Running on ${iosInfo.utsname.machine}');  // e.g. "iPod7,1"
-    //
-    // WebBrowserInfo webBrowserInfo = await deviceInfo.webBrowserInfo;
-    // print('Running on ${webBrowserInfo.userAgent}');  // e.g. "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0"
   }
 
   StatusRequest? statusRequest = StatusRequest.none;
@@ -46,6 +32,8 @@ class DownloadController extends GetxController {
     statusRequest = StatusRequest.success;
     update();
   }
+
+  bool done = false;
 
   downloadImage(ImageModel imageModel, String quality) async {
     if (Get.isBottomSheetOpen == true) {
@@ -73,6 +61,17 @@ class DownloadController extends GetxController {
           },
         );
 
+        if (downloadingIds.values.first == 100) {
+          Timer timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+            done = !done;
+            update();
+          });
+          Timer(const Duration(seconds: 5), () {
+            timer.cancel();
+            done = false;
+            update();
+          });
+        }
         File file = File('${galleryDir!.path}/${imageModel.id!}.jpg');
         await file.writeAsBytes(response.data);
         print('Image saved successfully');

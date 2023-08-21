@@ -187,21 +187,27 @@ class ImageCard extends StatelessWidget {
     }
 
     imageWidget() {
-      return CachedNetworkImage(
-        imageUrl: list[index].urls!.small!,
-        fit: BoxFit.cover,
-        height: Get.height / 3,
-        width: Get.width / 2,
-        placeholder: (context, url) => Center(
-          child: SizedBox(
-            width: 20,
-            height: 3,
-            child: LinearProgressIndicator(
-              color: Get.theme.primaryColor.withOpacity(0.8),
+      try {
+        return CachedNetworkImage(
+          imageUrl: list[index].urls!.regular!,
+          fit: BoxFit.cover,
+          height: Get.height / 3,
+          width: Get.width / 2,
+          errorWidget: (context, url, error) =>
+              const Icon(Icons.image_outlined),
+          placeholder: (context, url) => Center(
+            child: SizedBox(
+              width: 20,
+              height: 3,
+              child: LinearProgressIndicator(
+                color: Get.theme.primaryColor.withOpacity(0.8),
+              ),
             ),
           ),
-        ),
-      );
+        );
+      } catch (e) {
+        print('=======imageWidget===$e========');
+      }
     }
 
     return InkWell(

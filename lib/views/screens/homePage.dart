@@ -130,18 +130,25 @@ class HomePage extends StatelessWidget {
       );
     }
 
-
-    titleWidget(){
+    titleWidget() {
       return Row(
         children: [
           IconButton(
             onPressed: () {
               homeController.toDownloadPage();
             },
-            icon: Icon(
-              Icons.download,
-              color: Get.theme.primaryColor,
-            ),
+            icon: GetBuilder<DownloadController>(builder: (downloadController) {
+              return AnimatedContainer(
+                width: downloadController.done ? 30 : 10,
+                duration: const Duration(milliseconds: 400),
+                child: Icon(
+                  Icons.download,
+                  color: downloadController.done
+                      ?  Colors.green
+                      :Get.theme.primaryColor,
+                ),
+              );
+            }),
           ),
           IconButton(
             onPressed: () {

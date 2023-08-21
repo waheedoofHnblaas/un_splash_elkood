@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:un_splash/controllers/homeControllers/downloadController.dart';
 import 'package:un_splash/controllers/homeControllers/favoriteController.dart';
 import 'package:un_splash/core/constant/approutes.dart';
 import 'package:un_splash/core/function/checkinternet.dart';
@@ -92,7 +93,6 @@ class HomeController extends GetxController {
 
   Future getSearchedImages(String textSearch, int page) async {
     print('==========getSearchedImages==========');
-
     if (page == 0) {
       searchPageIndex = 0;
       searchedImagesList.clear();
@@ -175,5 +175,12 @@ class HomeController extends GetxController {
     FavoriteController favoriteController = Get.find();
     await favoriteController.getFavorites();
     Get.toNamed(AppRoute.favorite);
+  }
+
+  Future<void> toDownloadPage() async {
+    DownloadController downloadController = Get.find();
+    await downloadController.getDownloadedImages();
+    await downloadController.info();
+    Get.toNamed(AppRoute.download);
   }
 }

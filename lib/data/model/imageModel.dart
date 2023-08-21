@@ -227,8 +227,7 @@ class Sponsor {
     totalPhotos = json['total_photos'];
     acceptedTos = json['accepted_tos'];
     forHire = json['for_hire'];
-    social =
-        json['social'] != null ? Social.fromJson(json['social']) : null;
+    social = json['social'] != null ? Social.fromJson(json['social']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -270,15 +269,18 @@ class Links {
   String? portfolio;
   String? following;
   String? followers;
+  String? download;
 
-  Links(
-      {this.self,
-      this.html,
-      this.photos,
-      this.likes,
-      this.portfolio,
-      this.following,
-      this.followers});
+  Links({
+    this.self,
+    this.html,
+    this.photos,
+    this.likes,
+    this.portfolio,
+    this.following,
+    this.followers,
+    this.download,
+  });
 
   Links.fromJson(Map<String, dynamic> json) {
     self = json['self'];
@@ -288,6 +290,7 @@ class Links {
     portfolio = json['portfolio'];
     following = json['following'];
     followers = json['followers'];
+    download = json['download'];
   }
 
   Map<String, dynamic> toJson() {
@@ -299,6 +302,7 @@ class Links {
     data['portfolio'] = portfolio;
     data['following'] = following;
     data['followers'] = followers;
+    data['download'] = download;
     return data;
   }
 }

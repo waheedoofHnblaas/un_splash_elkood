@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:un_splash/controllers/homeControllers/homeController.dart';
 import 'package:un_splash/core/class/handelingview.dart';
 import 'package:un_splash/core/class/statusrequest.dart';
-import 'package:un_splash/views/screens/favoritePage.dart';
-import 'package:un_splash/views/widget/apptextfield.dart';
+ import 'package:un_splash/views/widget/apptextfield.dart';
 import 'package:un_splash/views/widget/imageCard.dart';
 
+import '../../controllers/homeControllers/downloadController.dart';
 import '../../controllers/homeControllers/favoriteController.dart';
 
 class HomePage extends StatelessWidget {
@@ -17,6 +17,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     HomeController homeController = Get.put(HomeController());
     Get.put(FavoriteController());
+    Get.put(DownloadController());
     gridViewWidget() {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 2.0),
@@ -25,8 +26,8 @@ class HomePage extends StatelessWidget {
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             mainAxisExtent: Get.height / 3,
-            crossAxisSpacing: 5.0, // Spacing between columns
-            mainAxisSpacing: 10.0, // Spacing between rows
+            crossAxisSpacing: 3.0, // Spacing between columns
+            mainAxisSpacing: 3.0, // Spacing between rows
           ),
           itemCount: homeController.isSearchMode
               ? homeController.searchedImagesList.length
@@ -126,7 +127,9 @@ class HomePage extends StatelessWidget {
         title: Row(
           children: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                homeController.toDownloadPage();
+              },
               icon: Icon(
                 Icons.download,
                 color: Get.theme.primaryColor,
@@ -143,11 +146,10 @@ class HomePage extends StatelessWidget {
             ),
             Expanded(child: Container()),
             const Text('UnSplash'),
-            Expanded(flex: 2,child: Container()),
+            Expanded(flex: 2, child: Container()),
           ],
         ),
         actions: [searchActions()],
-
       ),
       body: RefreshIndicator(
         onRefresh: () async {

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:un_splash/routes.dart';
 import 'core/services/services.dart';
 import 'initialbinding.dart';
+import 'package:flutter/rendering.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
